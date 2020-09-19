@@ -1,12 +1,16 @@
 package com.prometheus.ledger.service.facade.member.request;
 
 import com.prometheus.ledger.core.model.request.BaseRequest;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.NoArgsConstructor;
 
-@Builder
 public class CheckLoginRequest extends BaseRequest {
     private String username;
     private String password;
+
+    public CheckLoginRequest() {
+    }
 
     public String getUsername() {
         return username;

@@ -1,16 +1,11 @@
 package com.prometheus.ledger.core.util;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.prometheus.ledger.service.common.session.model.SessionObject;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class JSONUtil {
     public static JSONArray toJsonArray(List<Object> list) {

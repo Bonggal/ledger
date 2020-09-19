@@ -43,10 +43,11 @@ public class LoginController {
     @ResponseStatus(value = HttpStatus.OK)
     public String loginPost(HttpServletRequest request, HttpServletResponse response, Model model, @RequestParam Map<String, String> body) throws Throwable {
         if (StringUtil.isEqual(body.get("submit"), SIGN_IN)) {
-            CheckLoginResult result = memberFacade.checkLogin(CheckLoginRequest.builder()
-                    .username(body.get(USERNAME))
-                    .password(EncryptionUtil.sha256Hash(body.get(PASSWORD)))
-                    .build());
+
+            CheckLoginRequest checkLoginRequest = new CheckLoginRequest();
+            checkLoginRequest.setPassword(body.get(USERNAME));
+            checkLoginRequest.setUsername(body.get(PASSWORD));
+            CheckLoginResult result = memberFacade.checkLogin(checkLoginRequest);
 
             if (null == result || !result.isSuccess() || !result.isExist()) {
                 model.addAttribute("message", "Username or password is wrong");

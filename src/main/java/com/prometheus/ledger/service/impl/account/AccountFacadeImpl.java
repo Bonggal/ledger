@@ -7,6 +7,7 @@ import com.prometheus.ledger.service.facade.account.AccountFacade;
 import com.prometheus.ledger.service.facade.account.request.QueryAccountListRequest;
 import com.prometheus.ledger.service.facade.account.result.QueryAccountListResult;
 import com.prometheus.ledger.service.impl.account.context.AccountContext;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
