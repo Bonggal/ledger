@@ -2,6 +2,7 @@ package com.prometheus.ledger.service.common.session;
 
 import com.prometheus.ledger.core.util.EncryptionUtil;
 import com.prometheus.ledger.core.util.JSONUtil;
+import com.prometheus.ledger.core.util.MainContextHolder;
 import com.prometheus.ledger.core.util.StringUtil;
 import com.prometheus.ledger.service.common.session.model.SessionObject;
 import com.prometheus.ledger.service.common.session.result.GetLoginSessionResult;
@@ -80,6 +81,7 @@ public class SessionServiceImpl implements SessionService{
         String sessionValue = EncryptionUtil.encrypt(sessionObject.toJsonString(), sessionEncryptionKey);
         session.setAttribute(LOGIN_SESSION_KEY, sessionValue);
         session.setMaxInactiveInterval(1800); // set inactive time to 30 minutes
+        MainContextHolder.saveSessionObjectToContextHolder(sessionObject);
     }
 
     private long getCurrentTimestamp(){

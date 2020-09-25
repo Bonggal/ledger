@@ -9,7 +9,6 @@ import com.prometheus.ledger.core.model.error.ErrorCode;
 import com.prometheus.ledger.core.util.AssertUtil;
 import com.prometheus.ledger.repository.account.AccountRepository;
 import com.prometheus.ledger.repository.account.entity.AccountDTO;
-import com.prometheus.ledger.service.facade.account.model.Account;
 import com.prometheus.ledger.service.facade.account.request.CreateAccountRequest;
 import com.prometheus.ledger.service.impl.account.context.BaseAccountContext;
 import org.springframework.beans.factory.annotation.Autowired;

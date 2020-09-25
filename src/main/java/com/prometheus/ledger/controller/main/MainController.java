@@ -1,5 +1,6 @@
 package com.prometheus.ledger.controller.main;
 
+import com.prometheus.ledger.core.util.MainContextHolder;
 import com.prometheus.ledger.service.common.session.SessionService;
 import com.prometheus.ledger.service.common.session.result.GetLoginSessionResult;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,9 @@ public class MainController implements ErrorController {
     public String mainPage(HttpServletRequest request, HttpServletResponse response, Model model){
         GetLoginSessionResult result = sessionService.getLoginSession(request.getSession());
         model.addAttribute("userId", result.getUserId());
+
+        String userIdFromContext = MainContextHolder.getCurrentUserId();
+        model.addAttribute("userIdFromContext",userIdFromContext);
         return "index";
     }
 
