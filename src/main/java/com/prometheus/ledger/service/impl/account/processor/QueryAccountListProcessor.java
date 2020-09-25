@@ -34,6 +34,13 @@ public class QueryAccountListProcessor implements Processor<BaseAccountContext> 
     @Override
     public void doProcess(BaseAccountContext context) {
         QueryAccountListResult result = (QueryAccountListResult) context.getResult();
+
+        Map<String, String> map = new HashMap<String, String>(){{
+            put("ufc", MainContextHolder.getCurrentUserId());
+        }};
+        result.setExtendInfo(map);
+
+
         List<AccountDTO> accountDTOList = accountRepository.findAll();
 
         if (CollectionUtil.isEmpty(accountDTOList)){
@@ -56,10 +63,5 @@ public class QueryAccountListProcessor implements Processor<BaseAccountContext> 
 
         result.setAccountList(accountSummaryList);
         result.setSuccess(true);
-
-        Map<String, String> map = new HashMap<String, String>(){{
-            put("ufc", MainContextHolder.getCurrentUserId());
-        }};
-        result.setExtendInfo(map);
     }
 }
