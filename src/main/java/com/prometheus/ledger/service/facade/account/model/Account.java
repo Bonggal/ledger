@@ -8,6 +8,7 @@ public class Account extends BaseModel {
     private String accountName;
     private Money accountBalance;
     private String accountDesc;
+    private String accountCurrency;
 
     public String getAccountId() {
         return accountId;
@@ -39,5 +40,23 @@ public class Account extends BaseModel {
 
     public void setAccountDesc(String accountDesc) {
         this.accountDesc = accountDesc;
+    }
+
+    /**
+     * Getter method for property accountCurrency.
+     *
+     * @return property value of accountCurrency
+     */
+    public String getAccountCurrency() {
+        return accountCurrency;
+    }
+
+    /**
+     * Setter method for property accountCurrency.
+     *
+     * @param accountCurrency value to be assigned to property accountCurrency
+     */
+    public void setAccountCurrency(String accountCurrency) {
+        this.accountCurrency = accountCurrency;
     }
 }
