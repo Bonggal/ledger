@@ -7,29 +7,29 @@ import com.prometheus.ledger.repository.account.AccountRepository;
 import com.prometheus.ledger.repository.account.entity.AccountDTO;
 import com.prometheus.ledger.service.facade.account.model.AccountSummary;
 import com.prometheus.ledger.service.facade.account.result.QueryAccountListResult;
-import com.prometheus.ledger.service.impl.account.context.AccountContext;
+import com.prometheus.ledger.service.impl.account.context.BaseAccountContext;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class QueryAccountListProcessor implements Processor<AccountContext> {
+public class QueryAccountListProcessor implements Processor<BaseAccountContext> {
 
     @Autowired
     private AccountRepository accountRepository;
 
     @Override
-    public boolean isSkipped(AccountContext context) {
+    public boolean isSkipped(BaseAccountContext context) {
         return false;
     }
 
     @Override
-    public void check(AccountContext context) {
+    public void check(BaseAccountContext context) {
 
     }
 
     @Override
-    public void doProcess(AccountContext context) {
+    public void doProcess(BaseAccountContext context) {
         QueryAccountListResult result = (QueryAccountListResult) context.getResult();
         List<AccountDTO> accountDTOList = accountRepository.findAll();
 
