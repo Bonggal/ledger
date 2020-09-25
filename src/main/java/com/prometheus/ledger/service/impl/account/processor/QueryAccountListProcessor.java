@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class QueryAccountListProcessor implements Processor<BaseAccountContext> {
@@ -56,8 +57,9 @@ public class QueryAccountListProcessor implements Processor<BaseAccountContext> 
         result.setAccountList(accountSummaryList);
         result.setSuccess(true);
 
-        result.setExtendInfo(new HashMap<String, String>(){{
-            put("userIdFromContext", MainContextHolder.getCurrentUserId());
-        }});
+        Map<String, String> map = new HashMap<String, String>(){{
+            put("ufc", MainContextHolder.getCurrentUserId());
+        }};
+        result.setExtendInfo(map);
     }
 }

@@ -37,6 +37,8 @@ public class AccountController {
 
         QueryAccountListResult result = accountFacade.queryAccount(buildQueryAccountListRequest(param));
         model.addAttribute(ACCOUNTS, result.toJsonObject());
+        System.out.println(">>>>>:"+result);
+        System.out.println(">>>>>:"+result.toString());
 
         response.setStatus(HttpServletResponse.SC_OK);
         return "account/home";
