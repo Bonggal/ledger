@@ -15,6 +15,10 @@
                 <div class="row mb-2">
                     <div class="col-sm-6">
                         <h1>My Account</h1>
+                        obj
+                        <h3 class="cover-heading" th:if="${accounts}!=null" th:text="${accounts}"></h3>
+                        extendInfo
+                        <h3 class="cover-heading" th:if="${accounts}!=null" th:text="${accounts.extendInfo}"></h3>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">

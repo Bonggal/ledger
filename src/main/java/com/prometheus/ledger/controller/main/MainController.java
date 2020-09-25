@@ -23,9 +23,6 @@ public class MainController implements ErrorController {
     public String mainPage(HttpServletRequest request, HttpServletResponse response, Model model){
         GetLoginSessionResult result = sessionService.getLoginSession(request.getSession());
         model.addAttribute("userId", result.getUserId());
-
-        String userIdFromContext = MainContextHolder.getCurrentUserId();
-        model.addAttribute("userIdFromContext",userIdFromContext);
         return "index";
     }
 
