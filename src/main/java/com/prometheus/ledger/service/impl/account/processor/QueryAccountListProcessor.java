@@ -6,7 +6,6 @@ import com.prometheus.ledger.core.util.CollectionUtil;
 import com.prometheus.ledger.repository.account.AccountRepository;
 import com.prometheus.ledger.repository.account.entity.AccountDTO;
 import com.prometheus.ledger.service.facade.account.model.AccountSummary;
-import com.prometheus.ledger.service.facade.account.request.QueryAccountListRequest;
 import com.prometheus.ledger.service.facade.account.result.QueryAccountListResult;
 import com.prometheus.ledger.service.impl.account.context.BaseAccountContext;
 import org.springframework.beans.factory.annotation.Autowired;
