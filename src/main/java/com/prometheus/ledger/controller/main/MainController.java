@@ -1,6 +1,5 @@
 package com.prometheus.ledger.controller.main;
 
-import com.prometheus.ledger.core.util.MainContextHolder;
 import com.prometheus.ledger.service.common.session.SessionService;
 import com.prometheus.ledger.service.common.session.result.GetLoginSessionResult;
 import org.springframework.beans.factory.annotation.Autowired;

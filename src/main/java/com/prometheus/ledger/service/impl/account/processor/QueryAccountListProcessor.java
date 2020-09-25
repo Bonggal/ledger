@@ -3,10 +3,10 @@ package com.prometheus.ledger.service.impl.account.processor;
 import com.prometheus.ledger.core.model.Money;
 import com.prometheus.ledger.core.model.Processor;
 import com.prometheus.ledger.core.util.CollectionUtil;
-import com.prometheus.ledger.core.util.MainContextHolder;
 import com.prometheus.ledger.repository.account.AccountRepository;
 import com.prometheus.ledger.repository.account.entity.AccountDTO;
 import com.prometheus.ledger.service.facade.account.model.AccountSummary;
+import com.prometheus.ledger.service.facade.account.request.QueryAccountListRequest;
 import com.prometheus.ledger.service.facade.account.result.QueryAccountListResult;
 import com.prometheus.ledger.service.impl.account.context.BaseAccountContext;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,13 +34,6 @@ public class QueryAccountListProcessor implements Processor<BaseAccountContext> 
     @Override
     public void doProcess(BaseAccountContext context) {
         QueryAccountListResult result = (QueryAccountListResult) context.getResult();
-
-        Map<String, String> map = new HashMap<String, String>(){{
-            put("ufc", MainContextHolder.getCurrentUserId());
-        }};
-        result.setExtendInfo(map);
-
-
         List<AccountDTO> accountDTOList = accountRepository.findAll();
 
         if (CollectionUtil.isEmpty(accountDTOList)){

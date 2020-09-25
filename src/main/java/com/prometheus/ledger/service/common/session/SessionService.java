@@ -8,4 +8,5 @@ public interface SessionService {
     boolean saveLoginSession(HttpSession session, String userId);
     GetLoginSessionResult getLoginSession(HttpSession session);
     boolean saveAdminLoginSession(HttpSession session, String adminId);
+    boolean clearLoginSession(HttpSession session);
 }

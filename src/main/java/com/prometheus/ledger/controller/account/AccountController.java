@@ -1,8 +1,9 @@
 package com.prometheus.ledger.controller.account;
 
-import com.prometheus.ledger.core.util.JSONUtil;
+import com.prometheus.ledger.core.model.EnvInfo;
 import com.prometheus.ledger.core.util.StringUtil;
 import com.prometheus.ledger.service.common.session.SessionService;
+import com.prometheus.ledger.service.common.session.result.GetLoginSessionResult;
 import com.prometheus.ledger.service.facade.account.AccountFacade;
 import com.prometheus.ledger.service.facade.account.request.QueryAccountListRequest;
 import com.prometheus.ledger.service.facade.account.result.QueryAccountListResult;
@@ -31,20 +32,19 @@ public class AccountController {
 
     @RequestMapping(value = {"/home"}, method = RequestMethod.GET)
     public String ledgerMainPage(HttpServletRequest request, HttpServletResponse response, Model model, @RequestParam Map<String, String> param) throws Throwable{
-        if(StringUtil.isBlank(sessionService.getLoginSession(request.getSession()).getUserId())){
+        GetLoginSessionResult loginSessionResult = sessionService.getLoginSession(request.getSession());
+        if(StringUtil.isBlank(loginSessionResult.getUserId())){
             return "redirect:/login";
         }
 
-        QueryAccountListResult result = accountFacade.queryAccount(buildQueryAccountListRequest(param));
+        QueryAccountListRequest queryAccountListRequest = new QueryAccountListRequest();
+        EnvInfo envInfo = new EnvInfo();
+        envInfo.setUserId(loginSessionResult.getUserId());
+        queryAccountListRequest.setEnvInfo(envInfo);
+        QueryAccountListResult result = accountFacade.queryAccount(queryAccountListRequest);
         model.addAttribute(ACCOUNTS, result.toJsonObject());
-        System.out.println(">>>>>:"+result);
-        System.out.println(">>>>>:"+result.toString());
 
         response.setStatus(HttpServletResponse.SC_OK);
         return "account/home";
-    }
-
-    private QueryAccountListRequest buildQueryAccountListRequest(Map<String, String> param){
-        return QueryAccountListRequest.builder().build();
     }
 }
