@@ -1,7 +1,6 @@
 package com.prometheus.ledger.controller.login;
 
 import com.prometheus.ledger.core.util.EncryptionUtil;
-import com.prometheus.ledger.core.util.JSONUtil;
 import com.prometheus.ledger.core.util.StringUtil;
 import com.prometheus.ledger.service.common.session.SessionService;
 import com.prometheus.ledger.service.facade.member.MemberFacade;
@@ -99,7 +98,7 @@ public class LoginController {
     @RequestMapping(value = {"/logout"}, method = RequestMethod.GET)
     public String logout(HttpServletRequest request, HttpServletResponse response) throws Throwable{
         if(null != request.getSession()){
-            request.getSession().invalidate();
+            sessionService.clearLoginSession(request.getSession());
         }
         return "redirect:/index";
     }

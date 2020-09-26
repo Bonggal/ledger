@@ -1,10 +1,13 @@
 package com.prometheus.ledger.controller.account;
 
-import com.prometheus.ledger.core.util.JSONUtil;
+import com.prometheus.ledger.core.model.EnvInfo;
 import com.prometheus.ledger.core.util.StringUtil;
 import com.prometheus.ledger.service.common.session.SessionService;
+import com.prometheus.ledger.service.common.session.result.GetLoginSessionResult;
 import com.prometheus.ledger.service.facade.account.AccountFacade;
+import com.prometheus.ledger.service.facade.account.request.CreateAccountRequest;
 import com.prometheus.ledger.service.facade.account.request.QueryAccountListRequest;
+import com.prometheus.ledger.service.facade.account.result.CreateAccountResult;
 import com.prometheus.ledger.service.facade.account.result.QueryAccountListResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -31,18 +34,58 @@ public class AccountController {
 
     @RequestMapping(value = {"/home"}, method = RequestMethod.GET)
     public String ledgerMainPage(HttpServletRequest request, HttpServletResponse response, Model model, @RequestParam Map<String, String> param) throws Throwable{
-        if(StringUtil.isBlank(sessionService.getLoginSession(request.getSession()).getUserId())){
+        GetLoginSessionResult loginSessionResult = sessionService.getLoginSession(request.getSession());
+        if(StringUtil.isBlank(loginSessionResult.getUserId())){
             return "redirect:/login";
         }
 
-        QueryAccountListResult result = accountFacade.queryAccount(buildQueryAccountListRequest(param));
-        model.addAttribute(ACCOUNTS, result.toJsonObject());
-
+        System.out.println(">>> GET account/home param: " + param);
+        QueryAccountListRequest queryAccountListRequest = new QueryAccountListRequest();
+        EnvInfo envInfo = new EnvInfo();
+        envInfo.setUserId(loginSessionResult.getUserId());
+        queryAccountListRequest.setEnvInfo(envInfo);
+        QueryAccountListResult result = accountFacade.queryAccount(queryAccountListRequest);
+        model.addAttribute(ACCOUNTS, result.getAccountList());
+        System.out.println(">>> query account result: " +result);
+        System.out.println(">>> response: " + response);
         response.setStatus(HttpServletResponse.SC_OK);
         return "account/home";
     }
 
-    private QueryAccountListRequest buildQueryAccountListRequest(Map<String, String> param){
-        return QueryAccountListRequest.builder().build();
+    @RequestMapping(value = {"/create"}, method = RequestMethod.GET)
+    public String getCreateAccountPage(HttpServletRequest request, HttpServletResponse response, Model model) throws Throwable{
+        GetLoginSessionResult loginSessionResult = sessionService.getLoginSession(request.getSession());
+        if(StringUtil.isBlank(loginSessionResult.getUserId())){
+            return "redirect:/login";
+        }
+        return "account/create";
+    }
+
+    @RequestMapping(value = {"/create"}, method = RequestMethod.POST)
+    public String createAccount(HttpServletRequest request, HttpServletResponse response, Model model, @RequestParam Map<String, String> param) throws Throwable{
+        GetLoginSessionResult loginSessionResult = sessionService.getLoginSession(request.getSession());
+        if(StringUtil.isBlank(loginSessionResult.getUserId())){
+            return "redirect:/login";
+        }
+        System.out.println(">>>param:"+param);
+        double accountBalance = 0;
+        try {
+            accountBalance = Double.parseDouble(param.get("accountBalance"));
+        } catch (Throwable e){
+            e.printStackTrace();
+            return "account/create";
+        }
+
+        CreateAccountRequest createAccountRequest = new CreateAccountRequest();
+        createAccountRequest.setAccountName(param.get("accountName"));
+        createAccountRequest.setAccountDesc(param.get("accountDesc"));
+        createAccountRequest.setAccountBalance(accountBalance);
+        createAccountRequest.setCurrency(param.get("accountCurrency"));
+        EnvInfo envInfo = new EnvInfo();
+        envInfo.setUserId(loginSessionResult.getUserId());
+        createAccountRequest.setEnvInfo(envInfo);
+        CreateAccountResult createAccountResult = accountFacade.createAccount(createAccountRequest);
+        System.out.println("Account creation result: "+createAccountResult.isSuccess());
+        return "account/home";
     }
 }

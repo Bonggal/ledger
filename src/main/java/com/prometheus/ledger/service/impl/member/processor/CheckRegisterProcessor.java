@@ -1,7 +1,3 @@
-/**
- * DANA Indonesia.
- * Copyright (c) 2004‐2020 All Rights Reserved.
- */
 package com.prometheus.ledger.service.impl.member.processor;
 
 import com.prometheus.ledger.core.model.BaseProcessContext;

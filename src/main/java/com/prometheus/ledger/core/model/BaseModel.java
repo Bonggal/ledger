@@ -11,4 +11,9 @@ public class BaseModel {
     public String toJsonString(){
         return JSONUtil.toJsonString(this);
     }
+
+    @Override
+    public String toString(){
+        return toJsonString();
+    }
 }
