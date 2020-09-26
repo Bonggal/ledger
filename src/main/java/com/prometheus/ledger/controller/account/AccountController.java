@@ -73,7 +73,7 @@ public class AccountController {
             accountBalance = Double.parseDouble(param.get("accountBalance"));
         } catch (Throwable e){
             e.printStackTrace();
-            return "account/home";
+            return "account/create";
         }
 
         CreateAccountRequest createAccountRequest = new CreateAccountRequest();
@@ -86,6 +86,6 @@ public class AccountController {
         createAccountRequest.setEnvInfo(envInfo);
         CreateAccountResult createAccountResult = accountFacade.createAccount(createAccountRequest);
         System.out.println("Account creation result: "+createAccountResult.isSuccess());
-        return "account/create";
+        return "account/home";
     }
 }
