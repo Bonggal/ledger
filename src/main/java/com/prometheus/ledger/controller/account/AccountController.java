@@ -47,4 +47,9 @@ public class AccountController {
         response.setStatus(HttpServletResponse.SC_OK);
         return "account/home";
     }
+
+    @RequestMapping(value = {"/create"}, method = RequestMethod.GET)
+    public String getCreateAccountPage(HttpServletRequest request, HttpServletResponse response, Model model) throws Throwable{
+        return "account/create";
+    }
 }
