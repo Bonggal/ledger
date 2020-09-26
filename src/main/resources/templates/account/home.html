@@ -30,6 +30,7 @@
         <section class="content">
             <a href="/account/create" class="btn btn-secondary">Create Account</a>
             <!-- Default box -->
+            <p th:if="null != ${accounts}" th:text="${accounts}"></p>
             <div class="card">
                 <div class="card-header">
                     <h3 class="card-title">My Account</h3>
