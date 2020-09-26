@@ -65,7 +65,7 @@ public class AccountController {
         if(StringUtil.isBlank(loginSessionResult.getUserId())){
             return "redirect:/login";
         }
-
+        System.out.println(">>>param:"+param);
         double accountBalance = 0;
         try {
             accountBalance = Double.parseDouble(param.get("accountBalance"));
