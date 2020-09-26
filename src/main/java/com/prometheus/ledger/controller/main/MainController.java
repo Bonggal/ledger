@@ -1,5 +1,6 @@
 package com.prometheus.ledger.controller.main;
 
+import com.prometheus.ledger.core.util.StringUtil;
 import com.prometheus.ledger.service.common.session.SessionService;
 import com.prometheus.ledger.service.common.session.result.GetLoginSessionResult;
 import com.prometheus.ledger.service.facade.member.MemberFacade;
@@ -27,12 +28,14 @@ public class MainController implements ErrorController {
     @RequestMapping(value = {"/","/index"}, method = RequestMethod.GET)
     public String mainPage(HttpServletRequest request, HttpServletResponse response, Model model){
         GetLoginSessionResult result = sessionService.getLoginSession(request.getSession());
-        model.addAttribute("userId", result.getUserId());
 
-        QueryMemberRequest queryMemberRequest = new QueryMemberRequest();
-        queryMemberRequest.setUserId(result.getUserId());
-        QueryMemberResult queryMemberResult = memberFacade.queryMember(queryMemberRequest);
-        model.addAttribute("username", queryMemberResult.getMember().getUsername());
+        if (result != null && StringUtil.isNotBlank(result.getUserId())) {
+            model.addAttribute("userId", result.getUserId());
+            QueryMemberRequest queryMemberRequest = new QueryMemberRequest();
+            queryMemberRequest.setUserId(result.getUserId());
+            QueryMemberResult queryMemberResult = memberFacade.queryMember(queryMemberRequest);
+            model.addAttribute("username", queryMemberResult.getMember().getUsername());
+        }
         return "index";
     }
 
