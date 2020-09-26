@@ -86,6 +86,6 @@ public class AccountController {
         createAccountRequest.setEnvInfo(envInfo);
         CreateAccountResult createAccountResult = accountFacade.createAccount(createAccountRequest);
         System.out.println("Account creation result: "+createAccountResult.isSuccess());
-        return "account/home";
+        return "redirect:/account/home";
     }
 }
