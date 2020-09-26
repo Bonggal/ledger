@@ -42,13 +42,13 @@
                     </div>
                     <div class="card-body">
                         <p th:if="null!=${account.accountBalance}">
-                            <th:block th:text="${account.accountBalance.amount}">0</th:block>
+                            <th:block th:text="'Balance: '+${account.accountBalance.amount}">0</th:block>
                             <th:block th:if="null!=${account.accountBalance.currency}" th:text="${account.accountBalance.currency}"/>
                         </p>
                     </div>
                     <!-- /.card-body -->
                     <div class="card-footer">
-                        <p th:if="null!=${account.accountDesc}" th:text="'Balance: '+${account.accountDesc}"></p>
+                        <p th:if="null!=${account.accountDesc}" th:text="${account.accountDesc}"></p>
                     </div>
                     <!-- /.card-footer-->
                 </div>
