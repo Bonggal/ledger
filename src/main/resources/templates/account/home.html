@@ -31,25 +31,34 @@
             <a href="/account/create" class="btn btn-secondary">Create Account</a>
             <!-- Default box -->
             <p th:if="null != ${accounts}" th:text="${accounts}"></p>
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">My Account</h3>
 
-                    <div class="card-tools">
-                        <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
-                            <i class="fas fa-minus"></i></button>
+            <th:block th:each="account:${accounts}">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title" th:text="${account.accountName}"></h3>
+                        <div class="card-tools">
+                            <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip"
+                                    title="Collapse">
+                                <i class="fas fa-minus"></i></button>
+                        </div>
                     </div>
+                    <div class="card-body">
+                        <p th:if="null!=${account.accountDesc}" th:text="${account.accountDesc}"></p>
+                        <p th:if="null!=${account.accountBalance}">
+                            <th:block th:if="null!=${account.accountBalance.amount}" th:text="${account.accountBalance.amount}">0</th:block>
+                            <th:block th:if="null!=${account.accountBalance.currency}" th:text="${account.accountBalance.currency}"/>
+                        </p>
+                    </div>
+                    <!-- /.card-body -->
+                    <div class="card-footer">
+                        Footer
+                    </div>
+                    <!-- /.card-footer-->
                 </div>
-                <div class="card-body">
-                    This is account page!
-                </div>
-                <!-- /.card-body -->
-                <div class="card-footer">
-                    Footer
-                </div>
-                <!-- /.card-footer-->
-            </div>
-            <!-- /.card -->
+                <!-- /.card -->
+            </th:block>
+
+
         </section>
         <!-- /.content -->
     </div>

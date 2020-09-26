@@ -45,7 +45,7 @@ public class AccountController {
         envInfo.setUserId(loginSessionResult.getUserId());
         queryAccountListRequest.setEnvInfo(envInfo);
         QueryAccountListResult result = accountFacade.queryAccount(queryAccountListRequest);
-        model.addAttribute(ACCOUNTS, result.toJsonObject());
+        model.addAttribute(ACCOUNTS, result.getAccountList());
         System.out.println(">>> query account result: " +result);
         System.out.println(">>> response: " + response);
         response.setStatus(HttpServletResponse.SC_OK);
