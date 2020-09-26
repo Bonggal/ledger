@@ -28,6 +28,10 @@ public class CreateAccountProcessor implements Processor<BaseAccountContext> {
 
     @Override
     public void check(BaseAccountContext context) {
+        CreateAccountRequest createAccountRequest = (CreateAccountRequest) context.getRequest();
+        AssertUtil.isNotNull(createAccountRequest, ErrorCode.SYSTEM_ERROR, "request cannot be null");
+        AssertUtil.isNotNull(createAccountRequest.getEnvInfo(), ErrorCode.SYSTEM_ERROR, "envInfo cannot be null");
+        AssertUtil.isNotBlank(createAccountRequest.getEnvInfo().getUserId(), ErrorCode.SYSTEM_ERROR, "userId cannot be blank");
 
     }
 
@@ -44,7 +48,7 @@ public class CreateAccountProcessor implements Processor<BaseAccountContext> {
         accountDTO.setAccountBalance(createAccountRequest.getAccountBalance());
         accountDTO.setAccountDesc(createAccountRequest.getAccountDesc());
         accountDTO.setCurrency(createAccountRequest.getCurrency());
-        accountDTO.setUserId(""); // todo get current userId
+        accountDTO.setUserId(createAccountRequest.getEnvInfo().getUserId());
         return accountDTO;
     }
 }

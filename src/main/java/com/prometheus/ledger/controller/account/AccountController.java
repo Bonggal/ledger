@@ -5,7 +5,9 @@ import com.prometheus.ledger.core.util.StringUtil;
 import com.prometheus.ledger.service.common.session.SessionService;
 import com.prometheus.ledger.service.common.session.result.GetLoginSessionResult;
 import com.prometheus.ledger.service.facade.account.AccountFacade;
+import com.prometheus.ledger.service.facade.account.request.CreateAccountRequest;
 import com.prometheus.ledger.service.facade.account.request.QueryAccountListRequest;
+import com.prometheus.ledger.service.facade.account.result.CreateAccountResult;
 import com.prometheus.ledger.service.facade.account.result.QueryAccountListResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -50,6 +52,37 @@ public class AccountController {
 
     @RequestMapping(value = {"/create"}, method = RequestMethod.GET)
     public String getCreateAccountPage(HttpServletRequest request, HttpServletResponse response, Model model) throws Throwable{
+        GetLoginSessionResult loginSessionResult = sessionService.getLoginSession(request.getSession());
+        if(StringUtil.isBlank(loginSessionResult.getUserId())){
+            return "redirect:/login";
+        }
+        return "account/create";
+    }
+
+    @RequestMapping(value = {"/create"}, method = RequestMethod.POST)
+    public String createAccount(HttpServletRequest request, HttpServletResponse response, Model model, @RequestParam Map<String, String> param) throws Throwable{
+        GetLoginSessionResult loginSessionResult = sessionService.getLoginSession(request.getSession());
+        if(StringUtil.isBlank(loginSessionResult.getUserId())){
+            return "redirect:/login";
+        }
+
+        double accountBalance = 0;
+        try {
+            accountBalance = Double.parseDouble(param.get("accountBalance"));
+        } catch (Throwable e){
+            e.printStackTrace();
+        }
+
+        CreateAccountRequest createAccountRequest = new CreateAccountRequest();
+        createAccountRequest.setAccountName(param.get("accountName"));
+        createAccountRequest.setAccountDesc(param.get("accountDesc"));
+        createAccountRequest.setAccountBalance(accountBalance);
+        createAccountRequest.setCurrency(param.get("accountCurrency"));
+        EnvInfo envInfo = new EnvInfo();
+        envInfo.setUserId(loginSessionResult.getUserId());
+        createAccountRequest.setEnvInfo(envInfo);
+        CreateAccountResult createAccountResult = accountFacade.createAccount(createAccountRequest);
+        System.out.println("Account creation result: "+createAccountResult.isSuccess());
         return "account/create";
     }
 }

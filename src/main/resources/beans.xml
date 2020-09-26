@@ -5,10 +5,16 @@
    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
     <bean id="queryAccountListProcessor" class="com.prometheus.ledger.service.impl.account.processor.QueryAccountListProcessor"/>
+    <bean id="createAccountProcessor" class="com.prometheus.ledger.service.impl.account.processor.CreateAccountProcessor"/>
     <bean id="accountFacade" class="com.prometheus.ledger.service.impl.account.AccountFacadeImpl">
         <property name="queryAccountListProcessors">
             <list>
                 <ref bean="queryAccountListProcessor"/>
+            </list>
+        </property>
+        <property name="createAccountProcessors">
+            <list>
+                <ref bean="createAccountProcessor"/>
             </list>
         </property>
     </bean>
