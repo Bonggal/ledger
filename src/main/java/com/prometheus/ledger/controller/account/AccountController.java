@@ -71,6 +71,7 @@ public class AccountController {
             accountBalance = Double.parseDouble(param.get("accountBalance"));
         } catch (Throwable e){
             e.printStackTrace();
+            return "account/home";
         }
 
         CreateAccountRequest createAccountRequest = new CreateAccountRequest();
