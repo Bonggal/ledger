@@ -39,13 +39,15 @@ public class AccountController {
             return "redirect:/login";
         }
 
+        System.out.println(">>> GET account/home param: " + param);
         QueryAccountListRequest queryAccountListRequest = new QueryAccountListRequest();
         EnvInfo envInfo = new EnvInfo();
         envInfo.setUserId(loginSessionResult.getUserId());
         queryAccountListRequest.setEnvInfo(envInfo);
         QueryAccountListResult result = accountFacade.queryAccount(queryAccountListRequest);
         model.addAttribute(ACCOUNTS, result.toJsonObject());
-
+        System.out.println(">>> query account result: " +result);
+        System.out.println(">>> response: " + response);
         response.setStatus(HttpServletResponse.SC_OK);
         return "account/home";
     }

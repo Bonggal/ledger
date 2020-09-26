@@ -2,17 +2,18 @@ package com.prometheus.ledger.service.impl.account.processor;
 
 import com.prometheus.ledger.core.model.Money;
 import com.prometheus.ledger.core.model.Processor;
+import com.prometheus.ledger.core.model.error.ErrorCode;
+import com.prometheus.ledger.core.util.AssertUtil;
 import com.prometheus.ledger.core.util.CollectionUtil;
 import com.prometheus.ledger.repository.account.AccountRepository;
 import com.prometheus.ledger.repository.account.entity.AccountDTO;
 import com.prometheus.ledger.service.facade.account.model.AccountSummary;
+import com.prometheus.ledger.service.facade.account.request.QueryAccountListRequest;
 import com.prometheus.ledger.service.facade.account.result.QueryAccountListResult;
 import com.prometheus.ledger.service.impl.account.context.BaseAccountContext;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 public class QueryAccountListProcessor implements Processor<BaseAccountContext> {
@@ -27,14 +28,18 @@ public class QueryAccountListProcessor implements Processor<BaseAccountContext> 
 
     @Override
     public void check(BaseAccountContext context) {
-
+        QueryAccountListRequest request = (QueryAccountListRequest) context.getRequest();
+        AssertUtil.isNotNull(request, ErrorCode.SYSTEM_ERROR, "request cannot be null");
+        AssertUtil.isNotNull(request.getEnvInfo(), ErrorCode.SYSTEM_ERROR, "envInfo cannot be null");
+        AssertUtil.isNotBlank(request.getEnvInfo().getUserId(), ErrorCode.SYSTEM_ERROR, "userId cannot be blank");
     }
 
     @Override
     public void doProcess(BaseAccountContext context) {
-        QueryAccountListResult result = (QueryAccountListResult) context.getResult();
-        List<AccountDTO> accountDTOList = accountRepository.findAll();
+        QueryAccountListRequest request = (QueryAccountListRequest) context.getRequest();
+        List<AccountDTO> accountDTOList = accountRepository.findAccountListByUserId(request.getEnvInfo().getUserId());
 
+        QueryAccountListResult result = (QueryAccountListResult) context.getResult();
         if (CollectionUtil.isEmpty(accountDTOList)){
             result.setSuccess(true);
             return;
