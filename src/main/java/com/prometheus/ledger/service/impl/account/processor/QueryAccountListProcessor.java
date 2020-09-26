@@ -49,6 +49,7 @@ public class QueryAccountListProcessor implements Processor<BaseAccountContext> 
             AccountSummary summary = new AccountSummary();
             summary.setAccountId(dto.getAccountId());
             summary.setAccountName(dto.getAccountName());
+            summary.setAccountDesc(dto.getAccountDesc());
 
             Money balance = new Money();
             balance.setCurrency(dto.getCurrency());

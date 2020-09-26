@@ -7,6 +7,7 @@ public class AccountSummary extends BaseModel {
     private String accountId;
     private String accountName;
     private Money accountBalance;
+    private String accountDesc;
 
     /**
      * Getter method for property accountId.
@@ -60,5 +61,23 @@ public class AccountSummary extends BaseModel {
      */
     public void setAccountBalance(Money accountBalance) {
         this.accountBalance = accountBalance;
+    }
+
+    /**
+     * Getter method for property accountDesc.
+     *
+     * @return property value of accountDesc
+     */
+    public String getAccountDesc() {
+        return accountDesc;
+    }
+
+    /**
+     * Setter method for property accountDesc.
+     *
+     * @param accountDesc value to be assigned to property accountDesc
+     */
+    public void setAccountDesc(String accountDesc) {
+        this.accountDesc = accountDesc;
     }
 }
